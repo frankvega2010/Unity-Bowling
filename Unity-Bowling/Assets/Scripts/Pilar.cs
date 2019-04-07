@@ -8,6 +8,7 @@ public class Pilar : MonoBehaviour
 
     public GameObject pisoTrigger;
     public GameObject pilarMesh;
+    private bool isDown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,8 +18,12 @@ public class Pilar : MonoBehaviour
 
     void OnTriggerEnter(Collider pisoTrigger)
     {
-        Debug.Log("COLISION");
-        pilarMesh.gameObject.GetComponent<Renderer>().material.color = Color.green;
+        if(!isDown)
+        {
+            Debug.Log("COLISION + 1 point!");
+            pilarMesh.gameObject.GetComponent<Renderer>().material.color = Color.green;
+            isDown = true;
+        }
     }
 
     // Update is called once per frame
