@@ -34,14 +34,6 @@ public class Pilar : MonoBehaviour
         }
     }
 
-    void randomPosition()
-    {
-        pilarMesh.transform.position = new Vector3(Random.Range(-8, 18), 4, Random.Range(17, -15));
-        pilarMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
-        rig.velocity = Vector3.zero;
-        rig.angularVelocity = Vector3.zero;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -69,11 +61,6 @@ public class Pilar : MonoBehaviour
         else if (resetReady && isDown)
         {
             pilarMesh.SetActive(false);
-        }
-
-        if(Input.GetKeyDown("p"))
-        {
-            randomPosition();
         }
     }
 }
