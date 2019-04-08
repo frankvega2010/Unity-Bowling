@@ -1,20 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LanzarPelota : MonoBehaviour
 {
+    public GameObject puntaje;
+    public GameObject mainCamera;
+    public GameObject ballCamera;
+
     public float force;
+    private int forceInt;
+    private int tiros;
+    public Text forceText;
+    public Text tirosText;
     public bool useGravity;
     private Vector3 ballPosition;
+    private Vector3 ballInitialPosition;
 
     private bool isLaunched = false;
+    public bool resetReady = false;
+    private bool switchOnce = false;
+    public bool freezeCamera = false;
 
     private Rigidbody rig;
     // Start is called before the first frame update
     void Start()
     {
+        ballInitialPosition = transform.position;
         rig = GetComponent<Rigidbody>();
+        tiros = 3;
     }
 
     // Update is called once per frame
@@ -23,20 +38,68 @@ public class LanzarPelota : MonoBehaviour
        float horizontal = Input.GetAxis("Horizontal");
        float vertical = Input.GetAxis("Vertical");
 
-       if (!isLaunched) transform.position = new Vector3(transform.position.x + horizontal * 10 * Time.deltaTime, transform.position.y, transform.position.z);
-        //rig.AddForce(transform.position, ForceMode.Impulse);
+       if (resetReady)
+       {
+           if (puntaje.GetComponent<Puntos>().pinos <= 0)
+           {
+               tiros = 0;
+           }
+           else tiros--;
 
-        // ballPosition = new Vector3(horizontal * 1, 0, 0);
+           transform.position = ballInitialPosition;
+           transform.rotation = Quaternion.Euler(0, 0, 0);
+           rig.velocity = Vector3.zero;
+           rig.angularVelocity = Vector3.zero;
+           force = 50;
+           resetReady = false;
+           isLaunched = false;
+           mainCamera.SetActive(true);
+           ballCamera.SetActive(false);
+           switchOnce = false;
+           freezeCamera = false;
+        }
 
-        // rig.AddForce(ballPosition, ForceMode.VelocityChange);
+        forceText.text = "Fuerza: " + forceInt.ToString();
 
-        //rig.AddForce(Physics.gravity * rig.mass);
+        if (tiros > 0)
+        {
+            tirosText.text = "Tiros: " + tiros.ToString();
+        } else
+        {
+            tirosText.text = "Sin Tiros restantes";
+            puntaje.GetComponent<Puntos>().isMatchFinished = true;
+            isLaunched = true;
+            switchOnce = true;
+        }
 
-        if (vertical == 1) force = force + 10 * Time.deltaTime;
-        else if (vertical == -1)force = force - 10 * Time.deltaTime;
 
-        if (force >= 100) force = 100;
-        else if (force <= 0) force = 0;
+        if (!isLaunched)
+        {
+            forceInt = (int)force;
+
+            transform.position = new Vector3(transform.position.x + horizontal * 10 * Time.deltaTime, transform.position.y, transform.position.z);
+
+            if (vertical == 1) force = force + 30 * Time.deltaTime;
+            else if (vertical == -1) force = force - 30 * Time.deltaTime;
+
+            if (force >= 100) force = 100;
+            else if (force <= 0) force = 0;
+        }
+        else if(!switchOnce && isLaunched)
+        {
+            mainCamera.SetActive(false);
+            ballCamera.SetActive(true);
+            switchOnce = true;
+            freezeCamera = false;
+        }
+
+        if(isLaunched && !freezeCamera)
+        {
+            ballCamera.transform.position = transform.position + new Vector3(0, 1.5f, -5);
+            ballCamera.transform.rotation = Quaternion.Euler(20, 0, 0);
+        }
+
+        
 
         if (Input.GetKeyUp("space") && !isLaunched)
         {
@@ -52,8 +115,7 @@ public class LanzarPelota : MonoBehaviour
 
     void FixedUpdate()
     {
-        rig.useGravity = false;
-       // rig.AddForce(Physics.gravity * rig.mass);
+       // rig.useGravity = false;
         if (useGravity) rig.AddForce(Physics.gravity * (rig.mass * rig.mass), ForceMode.Force);
     }
 }
