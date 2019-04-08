@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class Pilar : MonoBehaviour
 {
-    //Fetch the Renderer from the GameObject
-
     public GameObject puntaje;
     public GameObject pisoTrigger;
     public GameObject pilarMesh;
-   // public GameObject[] pillarsHitboxes;
     public bool isDown = false;
     public bool resetReady = false;
 
@@ -21,12 +18,6 @@ public class Pilar : MonoBehaviour
     {
         pillarInitialPosition = pilarMesh.transform.position;
         rig = pilarMesh.GetComponent<Rigidbody>();
-
-        //for (int i = 0; i < pillarsHitboxes.Length; i++)
-        //{
-        //    Physics.IgnoreCollision(GetComponent<Collider>(), pillarsHitboxes[i].GetComponent<Collider>());
-        //    //pillars[i].GetComponent<Pilar>().resetReady = true;
-        //}
     }
 
     void OnTriggerEnter(Collider pisoTrigger)
@@ -35,7 +26,6 @@ public class Pilar : MonoBehaviour
         {
             if(pisoTrigger.tag == "piso")
             {
-                //Debug.Log("COLISION + 1 point!");
                 pilarMesh.gameObject.GetComponent<Renderer>().material.color = Color.green;
                 isDown = true;
                 puntaje.GetComponent<Puntos>().pinos = puntaje.GetComponent<Puntos>().pinos - 1;
@@ -65,7 +55,6 @@ public class Pilar : MonoBehaviour
             pilarMesh.gameObject.GetComponent<Renderer>().material.color = Color.white;
             rig.velocity = Vector3.zero;
             rig.angularVelocity = Vector3.zero;
-            //rig.AddForce(pilarMesh, ForceMode.Force);
             resetReady = false;
             isDown = false;
         }

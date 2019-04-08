@@ -6,8 +6,8 @@ public class PillarTrigger : MonoBehaviour
 {
     public float timer;
 
-    public GameObject ball;
-    public GameObject[] pillars;
+    public GameObject bola;
+    public GameObject[] pinos;
 
     private bool timeStart = false;
 
@@ -21,7 +21,6 @@ public class PillarTrigger : MonoBehaviour
     {
         timeStart = true;
         ball.GetComponent<LanzarPelota>().freezeCamera = true;
-        Debug.Log("PASO");
     }
 
     // Update is called once per frame
@@ -33,10 +32,10 @@ public class PillarTrigger : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= 6)
             {
-                ball.GetComponent<LanzarPelota>().resetReady = true;
-                for (int i = 0; i < pillars.Length; i++)
+                bola.GetComponent<LanzarPelota>().resetReady = true;
+                for (int i = 0; i < pinos.Length; i++)
                 {
-                    pillars[i].GetComponent<Pilar>().resetReady = true;
+                    pinos[i].GetComponent<Pilar>().resetReady = true;
                 }
                 timeStart = false;
                 timer = 0;

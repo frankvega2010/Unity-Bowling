@@ -8,28 +8,26 @@ public class LanzarPelota : MonoBehaviour
     public GameObject puntaje;
     public GameObject mainCamera;
     public GameObject ballCamera;
-
+    public bool freezeCamera = false;
+    public bool resetReady = false;
+    public bool useGravity;
     public float force;
-    private int forceInt;
-    private int tiros;
     public Text forceText;
     public Text tirosText;
-    public bool useGravity;
-    private Vector3 ballPosition;
-    private Vector3 ballInitialPosition;
-
-    private bool isLaunched = false;
-    public bool resetReady = false;
-    private bool switchOnce = false;
-    public bool freezeCamera = false;
 
     private Rigidbody rig;
+    private int forceInt;
+    private int tiros = 3;
+    private Vector3 ballPosition;
+    private Vector3 ballInitialPosition;
+    private bool isLaunched = false;
+    private bool switchOnce = false;
+
     // Start is called before the first frame update
     void Start()
     {
         ballInitialPosition = transform.position;
         rig = GetComponent<Rigidbody>();
-        tiros = 3;
     }
 
     // Update is called once per frame
@@ -99,8 +97,6 @@ public class LanzarPelota : MonoBehaviour
             ballCamera.transform.rotation = Quaternion.Euler(20, 0, 0);
         }
 
-        
-
         if (Input.GetKeyUp("space") && !isLaunched)
         {
             rig.AddForce(Vector3.forward*force,ForceMode.Impulse);
@@ -115,7 +111,6 @@ public class LanzarPelota : MonoBehaviour
 
     void FixedUpdate()
     {
-       // rig.useGravity = false;
         if (useGravity) rig.AddForce(Physics.gravity * (rig.mass * rig.mass), ForceMode.Force);
     }
 }

@@ -11,7 +11,6 @@ public class Puntos : MonoBehaviour
     public Text pinosText;
     public Text finishText;
 
-    //private float time;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +20,8 @@ public class Puntos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //time += Time.deltaTime;
-
         pinosText.text = "Pinos: " + pinos.ToString();
 
         if(isMatchFinished) finishText.text = "Has terminado con : " + allPoints.ToString() + " puntos! Felicidades!";
-        //else finishText.text = "";
     }
 }
