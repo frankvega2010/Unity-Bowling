@@ -12,12 +12,20 @@ public class Pilar : MonoBehaviour
 
     private Vector3 pillarInitialPosition;
     private Rigidbody rig;
+    private Puntos puntajeJugador;
+    private Renderer pilarBrush;
+    private Collider pilarCollider;
+    private Collider triggerCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         pillarInitialPosition = pilarMesh.transform.position;
         rig = pilarMesh.GetComponent<Rigidbody>();
+        puntajeJugador = puntaje.GetComponent<Puntos>();
+        pilarBrush = pilarMesh.gameObject.GetComponent<Renderer>();
+        pilarCollider = pilarMesh.GetComponent<Collider>();
+        triggerCollider = GetComponent<Collider>();
     }
 
     void OnTriggerEnter(Collider pisoTrigger)
@@ -26,10 +34,10 @@ public class Pilar : MonoBehaviour
         {
             if(pisoTrigger.tag == "piso")
             {
-                pilarMesh.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                pilarBrush.material.color = Color.green;
                 isDown = true;
-                puntaje.GetComponent<Puntos>().pinos = puntaje.GetComponent<Puntos>().pinos - 1;
-                puntaje.GetComponent<Puntos>().allPoints = puntaje.GetComponent<Puntos>().allPoints + 10;
+                puntajeJugador.pinos = puntajeJugador.pinos - 1;
+                puntajeJugador.allPoints = puntajeJugador.allPoints + 10;
             }
         }
     }
@@ -37,22 +45,21 @@ public class Pilar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Physics.IgnoreCollision(pilarMesh.GetComponent<Collider>(), GetComponent<Collider>());
+        Physics.IgnoreCollision(pilarCollider, triggerCollider);
         
         transform.position = pilarMesh.transform.position;
         transform.rotation = pilarMesh.transform.rotation;
 
         if (resetReady && !isDown)
         {
-            if (puntaje.GetComponent<Puntos>().pinos <= 0)
+            if (puntajeJugador.pinos <= 0)
             {
-                puntaje.GetComponent<Puntos>().pinos = 0;
+                puntajeJugador.pinos = 0;
             }
-            else puntaje.GetComponent<Puntos>().pinos = puntaje.GetComponent<Puntos>().pinos;
 
             pilarMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
             pilarMesh.transform.position = pillarInitialPosition;
-            pilarMesh.gameObject.GetComponent<Renderer>().material.color = Color.white;
+            pilarBrush.material.color = Color.white;
             rig.velocity = Vector3.zero;
             rig.angularVelocity = Vector3.zero;
             resetReady = false;

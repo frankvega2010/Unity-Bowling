@@ -92,7 +92,7 @@ public class LanzarPelota : MonoBehaviour
 
         if (Input.GetKey("q"))
         {
-            transform.position = new Vector3(12.71f, 2.407f, -24.65f);
+            transform.position = new Vector3(12.71f, 2.407f, -24.65f); // magic numbers
         }       
     }
 
