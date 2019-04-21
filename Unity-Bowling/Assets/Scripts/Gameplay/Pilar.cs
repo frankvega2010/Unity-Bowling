@@ -12,7 +12,7 @@ public class Pilar : MonoBehaviour
 
     private Vector3 pillarInitialPosition;
     private Rigidbody rig;
-    private Puntos puntajeJugador;
+    private UIPuntos puntajeJugador;
     private Renderer pilarBrush;
     private Collider pilarCollider;
     private Collider triggerCollider;
@@ -22,7 +22,7 @@ public class Pilar : MonoBehaviour
     {
         pillarInitialPosition = pilarMesh.transform.position;
         rig = pilarMesh.GetComponent<Rigidbody>();
-        puntajeJugador = puntaje.GetComponent<Puntos>();
+        puntajeJugador = puntaje.GetComponent<UIPuntos>();
         pilarBrush = pilarMesh.gameObject.GetComponent<Renderer>();
         pilarCollider = pilarMesh.GetComponent<Collider>();
         triggerCollider = GetComponent<Collider>();

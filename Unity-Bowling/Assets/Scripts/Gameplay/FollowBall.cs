@@ -24,6 +24,7 @@ public class FollowBall : MonoBehaviour
             mainCamera.SetActive(true);
             ballCamera.SetActive(false);
             freezeCamera = false;
+            mainBall.resetReady = false;
         }
 
         if (!mainBall.switchOnce && mainBall.isLaunched)

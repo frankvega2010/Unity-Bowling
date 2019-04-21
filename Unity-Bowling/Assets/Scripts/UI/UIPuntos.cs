@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Puntos : MonoBehaviour
+public class UIPuntos : MonoBehaviour
 {
     public int pinos = 0;
     public int allPoints = 0;
@@ -11,10 +11,11 @@ public class Puntos : MonoBehaviour
     public Text pinosText;
     public Text finishText;
 
-    // Start is called before the first frame update
-    void Start()
+    private bool changeTextOnce = false;
+    void mostrarPuntajeFinal()
     {
-        
+        finishText.text = "Has terminado con : " + allPoints.ToString() + " puntos! Felicidades!";
+        changeTextOnce = true;
     }
 
     // Update is called once per frame
@@ -22,6 +23,6 @@ public class Puntos : MonoBehaviour
     {
         pinosText.text = "Pinos: " + pinos.ToString();
 
-        if(isMatchFinished) finishText.text = "Has terminado con : " + allPoints.ToString() + " puntos! Felicidades!";
+        if (isMatchFinished && !changeTextOnce) mostrarPuntajeFinal();
     }
 }
